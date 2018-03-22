@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  kafka-consumer-streams:
+    image: aardelean/kafka-consumer-streams:1.4
+    environment:
+       KAFKA_SERVER: 192.168.0.12:9092
+  kafka-consumer-earning:
+    image: aardelean/kafka-consumer-earning:1.1
+    environment:
+       KAFKA_SERVER: 192.168.0.12:9092
+  kafka-consumer-batch:
+    image: aardelean/kafka-batch-consumer:1.1
+    environment:
+       KAFKA_SERVER: 192.168.0.12:9092
+       PG_HOST:  db
+    secrets:
+    - pg_db
+    - pg_user
+    - pg_password
+secrets:
+  pg_db:
+    external: true
+  pg_user:
+    external: true
+  pg_password:
+    external: true

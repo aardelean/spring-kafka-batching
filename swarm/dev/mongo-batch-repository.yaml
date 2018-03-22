@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  mongo-batch-repository:
+    image: aardelean/mongo-repository:1.0
+    ports:
+    - target: 7005
+      published:  7005
+      mode: TCP
+    environment:
+      KAFKA_SERVER: swarm:9092
+      MONGO_USER:  test
+      MONGO_AUTHENTICATION_DB:  test
+      MONGO_DB: test
+      MONGO_HOST: mongo
+      MONGO_PWD:  test
+      MONGO_PORT: 27017
+    extra_hosts: 
+      - "swarm:${HOST}"

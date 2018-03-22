@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kafka-payload.iml" filepath="$PROJECT_DIR$/.idea/modules/kafka-payload.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kafka-payload_main.iml" filepath="$PROJECT_DIR$/.idea/modules/kafka-payload_main.iml" group="kafka-payload" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kafka-payload_test.iml" filepath="$PROJECT_DIR$/.idea/modules/kafka-payload_test.iml" group="kafka-payload" />
+    </modules>
+  </component>
+</project>

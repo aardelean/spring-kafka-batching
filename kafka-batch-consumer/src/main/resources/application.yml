@@ -1,0 +1,35 @@
+earning:
+  queue:
+    await:
+      add-ms: 100
+      poll-ms:  100
+    capacity: 4
+server:
+  port: 7006
+spring:
+  application:
+    name: batch-consumer
+  batch:
+    initialize-schema:  always
+    job:
+      enabled:  true
+  datasource:
+    url:  jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
+    driver: com.postgresql.Driver
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.PostgreSQL94Dialect
+        jdbc:
+          lob:
+            non_contextual_creation:  true
+flyway:
+  password: ${PG_PASSWORD}
+  user: ${PG_USER}
+  url: jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
+  locations: classpath:db/migration

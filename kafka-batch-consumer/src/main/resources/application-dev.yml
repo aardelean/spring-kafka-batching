@@ -1,0 +1,42 @@
+earning:
+  queue:
+    await:
+      add-ms: 100
+      poll-ms:  100
+    capacity: 4
+server:
+  port: 7016
+spring:
+  application:
+    name: batch-consumer
+  batch:
+    initialize-schema:  always
+    job:
+      enabled:  false
+  kafka:
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      max.poll.records: 10
+      max.poll.interval.ms: 3000
+    bootstrap-servers:  swarm:9092
+  datasource:
+    url:  jdbc:postgresql://swarm:5432/batch
+    driver: com.postgresql.Driver
+    username: postgres
+    password: postgres
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.PostgreSQL94Dialect
+        jdbc:
+          lob:
+            non_contextual_creation:  true
+flyway:
+  password: postgres
+  user: postgres
+  url: jdbc:postgresql://swarm:5432/batch
+  locations: classpath:db/migration

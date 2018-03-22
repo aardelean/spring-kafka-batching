@@ -1,0 +1,30 @@
+server:
+  port: 7003
+spring:
+  application:
+    name: kafka-consumer
+  kafka:
+    consumer:
+      group-id: migration
+      auto-offset-reset:  earliest
+    bootstrap-servers:  ${KAFKA_SERVER}
+  datasource:
+    url:  jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
+    driver: com.postgresql.Driver
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.PostgreSQL94Dialect
+        jdbc:
+          lob:
+            non_contextual_creation:  true
+flyway:
+  password: ${PG_PASSWORD}
+  user: ${PG_USER}
+  url: jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
+  locations: classpath:db/migration

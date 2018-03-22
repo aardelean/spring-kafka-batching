@@ -1,0 +1,50 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2"
+	}
+}
+
+plugins {
+	id 'com.palantir.docker' version '0.19.2'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'home'
+version = '1.4'
+sourceCompatibility = 9
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-webflux')
+	compile('org.springframework.kafka:spring-kafka')
+	compile('org.apache.kafka:kafka-streams:1.0.0')
+	compile('javax.xml.bind:jaxb-api:2.2.8')
+	compile('home:kafka-payload:1.2')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('io.projectreactor:reactor-test')
+	testCompile('org.springframework.kafka:spring-kafka-test')
+}
+
+docker {
+	def dockerVersion = System.getProperty('imageVersion') ? System.getProperty('imageVersion') : version
+	files "build/libs/${rootProject.name}-${version}.jar",'run.sh'
+	name "aardelean/${rootProject.name}:${dockerVersion}"
+	dependsOn tasks.build
+}

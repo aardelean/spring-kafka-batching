@@ -1,0 +1,20 @@
+server:
+  port: 7005
+spring:
+  application:
+    name: mongo-repository
+  kafka:
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      max.poll.records: 10
+      max.poll.interval.ms: 3000
+    bootstrap-servers:  ${KAFKA_SERVER}
+  data:
+    mongodb:
+      port: ${MONGO_PORT}
+      authenticationDatabase: ${MONGO_AUTHENTICATION_DB}
+      database: ${MONGO_DB}
+      host: ${MONGO_HOST}
+      username: ${MONGO_USER}
+      password: ${MONGO_PWD}

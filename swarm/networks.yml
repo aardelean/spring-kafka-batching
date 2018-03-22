@@ -1,0 +1,4 @@
+version: '3.2'
+networks:
+  kafka-network:
+    driver: overlay

@@ -1,0 +1,11 @@
+server:
+  port: 7004
+spring:
+  application:
+    name: kafka-earning-consumer
+  kafka:
+    bootstrap-servers:  ${KAFKA_SERVER}
+    consumer:
+      client.id:  topology-client-id
+      group.id: topology-group-id
+      application.id: topology-app-id

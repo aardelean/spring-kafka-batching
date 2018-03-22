@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+  kafka-consumer-streams:
+    image: aardelean/kafka-consumer-streams:1.1
+    environment:
+        KAFKA_SERVER: 192.168.0.12:9092,192.168.0.12:9093,192.168.0.12:9094
+    networks:
+      - batch_kafka-network
+  kafka-consumer-earning:
+    image: aardelean/kafka-consumer-earning:1.0
+    environment:
+        KAFKA_SERVER: 192.168.0.12:9092,192.168.0.12:9093,192.168.0.12:9094
+    networks:
+      - batch_kafka-network
+  kafka-consumer-batch:
+    image: aardelean/kafka-batch-consumer:1.0-SNAPSHOT
+    environment:
+        KAFKA_SERVER: 192.168.0.12:9092,192.168.0.12:9093,192.168.0.12:9094
+    networks:
+      - batch_kafka-network
+networks:
+  rest-network:
+    driver: rest-network
+  batch_kafka-network:
+    external: true

@@ -1,0 +1,30 @@
+server:
+  port: 7013
+spring:
+  application:
+    name: kafka-consumer
+  kafka:
+    consumer:
+      group-id: migration
+      auto-offset-reset:  earliest
+    bootstrap-servers:  192.168.0.12:9092
+  datasource:
+    url:  jdbc:postgresql://192.168.0.12:5432/batch
+    driver: com.postgresql.Driver
+    username: postgres
+    password: postgres
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.PostgreSQL94Dialect
+        jdbc:
+          lob:
+            non_contextual_creation:  true
+flyway:
+  password: postgres
+  user: postgres
+  url: jdbc:postgresql://192.168.0.12:5432/batch
+  locations: classpath:db/migration

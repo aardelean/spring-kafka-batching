@@ -1,0 +1,17 @@
+server:
+  port: 7002
+spring:
+  application:
+    name: kafka-client
+  kafka:
+    producer:
+      batch-size: 1048576
+      properties:
+        retries:  3
+        value.serializer:  home.kafka.payload.UserSerde
+        linger:
+          ms: 50
+        request:
+          timeout:
+            ms: 3000
+    bootstrap-servers:  ${KAFKA_SERVER}

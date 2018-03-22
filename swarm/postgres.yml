@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  db:
+    image: postgres:9.6
+    restart: always
+    ports:
+    - 5432:5432
+    volumes:
+    - /home/alex/config/postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/pg_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      POSTGRES_DB_FILE: /run/secrets/pg_db
+    secrets:
+       - pg_password
+       - pg_user
+       - pg_db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+    - 8080:8080
+secrets:
+  pg_user:
+    external: true
+  pg_password:
+    external: true
+  pg_db:
+    external: true

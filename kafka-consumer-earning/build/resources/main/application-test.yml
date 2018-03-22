@@ -1,0 +1,11 @@
+server:
+  port: 7014
+spring:
+  application:
+    name: kafka-earning-consumer
+  kafka:
+    consumer:
+      client.id:  test-topology-client-id
+      group.id: test-topology-group-id
+      application.id: test-topology-app-id
+    bootstrap-servers:  swarm:9092

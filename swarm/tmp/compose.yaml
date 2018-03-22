@@ -1,0 +1,6 @@
+version: '3.2'
+services:
+  centos:
+    image: centos-env
+    environment:
+      TEST_ENV: $HOST

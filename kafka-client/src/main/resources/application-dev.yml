@@ -1,0 +1,16 @@
+server:
+  port: 7012
+spring:
+  application:
+    name: kafka-client
+  kafka:
+    producer:
+      batch-size: 1048576
+      properties:
+        retries:  3
+        linger:
+          ms: 50
+        request:
+          timeout:
+            ms: 3000
+    bootstrap-servers:  192.168.0.12:9092

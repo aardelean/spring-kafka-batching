@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  mongo:
+    image: mongo:3.6.2-jessie
+    restart: always
+    ports:
+    - 27017:27017
+    volumes:
+    - /home/alex/config/mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+      MONGO_INITDB_DATABASE: test

@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  random-rest-generator:
+    image: aardelean/random-rest-producer:1.1
+    ports:
+      - target: 7001
+        published:  7001
+        protocol: tcp
+  kafka-producer:
+    image: aardelean/kafka-client:1.5
+    ports:
+      - target: 7002
+        published:  7002
+        protocol: tcp
+    environment:
+      KAFKA_SERVER: swarm:9092
+      REST_PROVIDER:  http://random-rest-generator:7001
+    extra_hosts:
+      - "swarm:${HOST}"

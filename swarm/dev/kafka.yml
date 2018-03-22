@@ -1,0 +1,28 @@
+version: '3.2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - target: 2181
+        published: 2181
+        protocol: tcp
+  kafka:
+      image:  aardelean/kafka:1.0.0
+      volumes:
+          - ./server-dev.properties:/kafka/config/server-dev.properties
+          - ./kafka-server-start.sh:/kafka/bin/kafka-server-start.sh
+      command: /kafka/bin/kafka-server-start.sh /kafka/config/server-dev.properties
+      depends_on:
+      - zookeeper
+      ports:
+        - target: 9092
+          published: 9092
+          protocol: tcp
+        - target: 9999
+          published: 9999
+          protocol: tcp
+        - target: 9998
+          published: 9998
+          protocol: tcp
+      extra_hosts: 
+      - "swarm:${HOST}"

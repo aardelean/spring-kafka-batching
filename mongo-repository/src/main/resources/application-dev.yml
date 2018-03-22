@@ -1,0 +1,20 @@
+server:
+  port: 7015
+spring:
+  application:
+    name: mongo-repository
+  kafka:
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      max.poll.records: 10
+      max.poll.interval.ms: 3000
+    bootstrap-servers:  swarm:9092
+  data:
+    mongodb:
+      port: 27017
+      authenticationDatabase: test
+      database: test
+      host: swarm
+      username: test
+      password: test

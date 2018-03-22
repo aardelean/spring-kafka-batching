@@ -1,0 +1,59 @@
+version: '3.2'
+
+services:
+    zookeeper:
+        image:  aardelean/kafka:1.0.0
+        command: /kafka/bin/zookeeper-server-start.sh /kafka/config/zookeeper.properties
+        ports:
+          - target: 2181
+            published: 2181
+            protocol: tcp
+    kafka_1:
+        image:  aardelean/kafka:1.0.0
+        volumes:
+            - ./server-1.properties:/kafka/config/server-1.properties
+        command: /kafka/bin/kafka-server-start.sh /kafka/config/server-1.properties
+        depends_on:
+        - zookeeper
+        ports:
+          - target: 9090
+            published: 9090
+            protocol: tcp
+    # kafka_2:
+    #     image:  aardelean/kafka:1.0.0
+    #     volumes:
+    #         - ./server-2.properties:/kafka/config/server-2.properties
+    #     command: /kafka/bin/kafka-server-start.sh /kafka/config/server-2.properties
+    #     depends_on:
+    #     - zookeeper
+    #     ports:
+    #       - target: 9091
+    #         published: 9091
+    #         protocol: tcp
+    # kafka-client:
+    #     image: aardelean/kafka-client:1.4
+    #     ports:
+    #       - target: 7002
+    #         published:  7002
+    #         protocol: tcp
+    #     environment:
+    #         REST_PROVIDER:  "http://random-rest-generator:7001"
+    #         KAFKA_SERVER: 192.168.0.12:9090
+    # kafka-consumer:
+    #     image: consumer:1.0
+    #     environment:
+    #         KAFKA_SERVER: 192.168.0.12:9090
+    # producer:
+    #     image:  aardelean/kafka:1.0.0
+    #     command: bash -c "sleep 4 && /kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 2 --partitions 2 --topic dates1 && while true; do date | /kafka/bin/kafka-console-producer.sh --broker-list kafka_1:9090,kafka_2:9091 --topic dates1; sleep 1; done "
+    #     depends_on:
+    #     - zookeeper
+    #     - kafka_1
+    #     - kafka_2
+    # consumer:
+    #     image:  aardelean/kafka:1.0.0
+    #     command: bash -c "sleep 6 && /kafka/bin/kafka-console-consumer.sh --topic dates1 --bootstrap-server kafka_1:9090,kafka_2:9091"
+    #     depends_on:
+    #     - zookeeper
+    #     - kafka_1
+    #     - kafka_2
