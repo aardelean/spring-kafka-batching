@@ -1,0 +1,45 @@
+server:
+  port: 7007
+retry:
+  initial:
+    backoff:
+      ms: 1000
+  maximum:
+    backoff:
+      ms: 10000
+    attempts:  5
+  multiplier: 1.2
+failed:
+  topic:  failedUserEarningTopic
+input:
+  topic: userEarningTopic
+consumer:
+  concurrency:  4
+spring:
+  application:
+    name: mongo-repository
+  kafka:
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    producer:
+      value-serializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      group:
+        id: retry-failure-group
+      retries:  20000
+      value:
+        serializer:  home.kafka.payload.user_earning.UserEarningSerde
+      request:
+        timeout:
+          ms: 30000
+      retry:
+        backoff:
+          ms: 100
+      reconnect:
+        backoff:
+          ms: 50
+      reconnect:
+        backoff:
+          max:
+            ms: 1000
+    bootstrap-servers:  swarm:9092

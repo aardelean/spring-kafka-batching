@@ -7,11 +7,22 @@ spring:
     producer:
       batch-size: 1048576
       properties:
-        retries:  3
-        value.serializer:  home.kafka.payload.UserSerde
+        retries:  20000
+        value:
+          serializer:  home.kafka.payload.UserSerde
         linger:
           ms: 50
         request:
           timeout:
             ms: 3000
+        retry:
+          backoff:
+            ms: 100
+        reconnect:
+          backoff:
+            ms: 50
+        reconnect:
+          backoff:
+            max:
+              ms: 1000
     bootstrap-servers:  ${KAFKA_SERVER}

@@ -1,0 +1,29 @@
+server:
+  port: 7005
+spring:
+  application:
+    name: mongo-repository
+  kafka:
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      retries:  20000
+      value:
+        serializer:  home.kafka.payload.user_earning.UserEarningSerde
+      request:
+        timeout:
+          ms: 100
+      session:
+        timeout:
+          ms: 5000
+      retry:
+        backoff:
+          ms: 100
+      reconnect:
+        backoff:
+          ms: 50
+      reconnect:
+        backoff:
+          max:
+            ms: 1000
+    bootstrap-servers:  swarm

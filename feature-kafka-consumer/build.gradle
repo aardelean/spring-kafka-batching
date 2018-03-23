@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2"
+    }
+}
+plugins {
+    id 'com.palantir.docker' version '0.19.2'
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'home'
+version = '1.0'
+sourceCompatibility = 1.9
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+    compile('org.springframework.kafka:spring-kafka')
+    compile('home:kafka-payload:1.2')
+    compileOnly('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.projectreactor:reactor-test')
+    testCompile('org.springframework.kafka:spring-kafka-test')
+    testCompile('org.mockito:mockito-core:2.8.9')
+}
+
+docker {
+    def dockerVersion = System.getProperty('imageVersion') ? System.getProperty('imageVersion') : version
+    files "build/libs/${rootProject.name}-${version}.jar",'run.sh'
+    name "aardelean/${rootProject.name}:${dockerVersion}"
+    dependsOn tasks.build
+}
