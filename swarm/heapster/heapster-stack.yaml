@@ -1,0 +1,52 @@
+version: '3.5'
+
+services:
+  influx:
+    image: influxdb
+    ports:
+    - target: 8086
+      published:  8086
+    volumes:
+      - /home/alex/config/heapster/influx:/var/lib/influxdb
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 0.0.0.0:80:3000
+    volumes:
+      - /home/alex/config/heapster/influx:/var/lib/grafana
+    depends_on:
+      - influx
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  cadvisor:
+    image: google/cadvisor
+    hostname: '{{.Node.Hostname}}'
+    ports:
+    - target: 8080
+      published:  8090
+    command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influx:8086
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - influx
+    deploy:
+      mode: global
+
+volumes:
+  influx:
+    driver: local
+  grafana:
+    driver: local
