@@ -1,5 +1,7 @@
 package home.batch.jobs;
 
+import home.batch.jobs.entities.BatchStepExecutionEntity;
+import home.batch.jobs.repositories.StepExecutionRepository;
 import home.kafka.payload.user_earning.UserEarning;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -24,6 +26,8 @@ public class JobController {
 
     @Autowired
     private JobExplorer jobExplorer;
+    @Autowired
+    private StepExecutionRepository stepExecutionRepository;
     @Autowired
     private Job job;
     @Autowired
@@ -50,6 +54,11 @@ public class JobController {
         return jobExecutions.stream()
                 .map(JobExecutionDTO::fromJobExecution)
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/steps", method = RequestMethod.GET)
+    public Iterable<BatchStepExecutionEntity> findAllSteps() {
+        return stepExecutionRepository.findAll();
     }
 
 }

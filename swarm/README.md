@@ -19,3 +19,9 @@ docker service create --name portainer     --publish 9000:9000     --constraint 
 
 create influx db:
 curl -i -XPOST http://swarm:8086/query --data-urlencode "q=CREATE DATABASE cadvisor"
+
+create mongo user:
+db.createUser({ user: 'test', pwd: 'test', roles: [ { role: "readWrite", db: "test" } ] });
+docker exec -it mongodb mongo test
+db.auth("test", "test")
+docker exec -it mongodb mongo -u test -p test test

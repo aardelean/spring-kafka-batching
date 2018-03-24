@@ -10,19 +10,17 @@ public class UserEarningProcessor implements ItemProcessor<UserEarning, UserEarn
     public UserEarningEntity process(UserEarning item) throws Exception {
         UserEarningEntity result = null;
         log.info("processing one item");
-        try {
-            result = UserEarningEntity
-                    .builder()
-                    .fullName(item.getFirstName() + " " + item.getLastName())
-                    .salary(item.getTotalEarned())
-                    .uuid(item.getUuid())
-                    .build();
-           long countDigits = result.getUuid().chars().mapToObj(c -> (char) c).filter(c -> Character.isDigit(c)).count();
-           log.info("found " +  countDigits + " digits");
-           Thread.sleep(countDigits * 20);
-        } catch (InterruptedException e) {
-            log.error("processor sleep interrupted");
-        }
-        return result;
+        result = UserEarningEntity
+                .builder()
+                .fullName(item.getFirstName() + " " + item.getLastName())
+                .salary(item.getTotalEarned())
+                .uuid(item.getId() + " **** " + item.getUuid())
+                .build();
+       long countDigits = result.getUuid().chars().mapToObj(c -> (char) c).filter(c -> Character.isDigit(c)).count();
+       log.info("found " +  countDigits + " countDigits");
+       if (countDigits > 24) {
+           throw new IllegalArgumentException("Too many digits, cannot process");
+       }
+       return result;
     }
 }

@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  kafka-batch-consumer:
+    image: aardelean/kafka-batch-consumer:1.3
+    ports:
+    -	published:	7006
+    -	target:	7006
+    environment:
+       KAFKA_SERVER: swarm:9092
+    extra_hosts: 
+      - "swarm:192.168.0.2"

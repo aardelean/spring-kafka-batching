@@ -3,7 +3,7 @@ earning:
     await:
       add-ms: 100
       poll-ms:  100
-    capacity: 4
+    capacity: 20
 server:
   port: 7006
 spring:
