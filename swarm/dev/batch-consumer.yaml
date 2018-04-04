@@ -1,11 +1,23 @@
 version: '3.5'
 services:
   kafka-batch-consumer:
-    image: aardelean/kafka-batch-consumer:1.3
-    ports:
-    -	published:	7006
-    -	target:	7006
+    image: aardelean/kafka-batch-consumer:1.6
     environment:
        KAFKA_SERVER: swarm:9092
+       PG_HOST:  db
     extra_hosts: 
       - "swarm:192.168.0.2"
+    ports:
+      - published:  7006
+        target: 7006
+    secrets: 
+      - pg_db
+      - pg_user
+      - pg_password
+secrets:
+  pg_db:
+    external: true
+  pg_user:
+    external: true
+  pg_password:
+    external: true

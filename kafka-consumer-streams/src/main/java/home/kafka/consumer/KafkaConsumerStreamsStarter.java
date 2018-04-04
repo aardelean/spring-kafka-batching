@@ -97,6 +97,7 @@ public class KafkaConsumerStreamsStarter {
                 .mapValues(mapper::toUserEarning)
                 .peek((key, userEarning) -> log.info(" key : " + key + " for mapped userEarning jobs: " + toLogString(userEarning)))
                 .through("rawUserEarningTopic", Produced.with(Serdes.String(), new UserEarningSerde()));
+
     }
 
     private ObjectMapper objectMapper = new ObjectMapper();

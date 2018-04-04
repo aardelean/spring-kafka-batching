@@ -3,7 +3,9 @@ earning:
     await:
       add-ms: 100
       poll-ms:  100
-    capacity: 20
+    capacity: 6
+failed:
+  queue:  failedEarningTopic
 server:
   port: 7006
 spring:
@@ -12,7 +14,14 @@ spring:
   batch:
     initialize-schema:  always
     job:
-      enabled:  true
+      enabled:  false
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
+    properties:
+      max.poll.records: 4
+      max.poll.interval.ms: 30000
   datasource:
     url:  jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
     driver: com.postgresql.Driver

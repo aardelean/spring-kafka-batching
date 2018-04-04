@@ -1,5 +1,6 @@
 package home.batch;
 
+import home.batch.jobs.JobCompletionNotificationListener;
 import home.batch.user_earning.*;
 import home.kafka.payload.user_earning.UserEarning;
 import org.springframework.batch.core.Job;
@@ -31,7 +32,6 @@ public class BatchConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
-//    // tag::readerwriterprocessor[]
     @Bean
     ItemReader<UserEarning> itemReader() {
         return new UserEarningItemReader();

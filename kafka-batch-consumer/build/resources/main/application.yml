@@ -14,6 +14,7 @@ spring:
     job:
       enabled:  false
   kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
     consumer:
       value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
     properties:

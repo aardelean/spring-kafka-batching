@@ -1,0 +1,20 @@
+server:
+  port: 7007
+spring:
+  application:
+    name: batch-backend
+  datasource:
+    url:  jdbc:postgresql://${PG_HOST}:5432/${PG_DB}
+    driver: com.postgresql.Driver
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.PostgreSQL94Dialect
+        jdbc:
+          lob:
+            non_contextual_creation:  true

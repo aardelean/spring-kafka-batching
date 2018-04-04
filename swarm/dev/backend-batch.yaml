@@ -1,0 +1,26 @@
+version: '3.6'
+services:
+  batch-backend:
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism:  1
+        delay:  4s
+        order:  start-first
+    image: aardelean/batch-backend:1.4
+    environment:
+       PG_HOST:  db
+    ports:
+      - published:  7007
+        target: 7007
+    secrets: 
+      - pg_db
+      - pg_user
+      - pg_password
+secrets:
+  pg_db:
+    external: true
+  pg_user:
+    external: true
+  pg_password:
+    external: true

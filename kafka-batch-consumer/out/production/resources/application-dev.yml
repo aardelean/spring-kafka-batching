@@ -4,6 +4,8 @@ earning:
       add-ms: 100
       poll-ms:  100
     capacity: 6
+failed:
+  queue:  failedEarningTopic
 server:
   port: 7016
 spring:
@@ -14,12 +16,12 @@ spring:
     job:
       enabled:  false
   kafka:
+    bootstrap-servers:  swarm:9092
     consumer:
       value-deserializer:  home.kafka.payload.user_earning.UserEarningSerde
     properties:
       max.poll.records: 4
       max.poll.interval.ms: 30000
-    bootstrap-servers:  swarm:9092
   datasource:
     url:  jdbc:postgresql://swarm:5432/batch
     driver: com.postgresql.Driver
